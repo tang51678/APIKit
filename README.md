@@ -19,6 +19,8 @@
 <img width="666" alt="image" src="https://github.com/user-attachments/assets/88d8abbd-cd3b-4614-b1e2-1763f45baf4f" />
 
 其他功能与1.0相似
+
+
 **Send with Cookie**
 
 开启Cookie，可以把包的Cookie存下来，生成请求的时候保留Cookie。
