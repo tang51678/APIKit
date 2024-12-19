@@ -7,6 +7,7 @@
 - 感谢原作者的贡献，原项目地址：https://github.com/API-Security/APIKit
 - APIKit是基于BurpSuite提供的JavaAPI开发的插件。
 - APIKit可以主动/被动扫描发现应用泄露的API文档，并将API文档解析成BurpSuite中的数据包用于API安全测试。
+- 至于项目代码等我整理好再进行提供，欢迎提交issue进行交流。
 
   ## 使用界面如下
   
