@@ -15,6 +15,7 @@
 **Scanner Enabled**
 
 开启扫描就打开Scanner Enabled按钮
+
 <img width="666" alt="image" src="https://github.com/user-attachments/assets/88d8abbd-cd3b-4614-b1e2-1763f45baf4f" />
 
 其他功能与1.0相似
