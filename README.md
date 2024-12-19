@@ -1,7 +1,7 @@
 # API_kit的二开版本
 
 ## 介绍
--  该版本APIKit是对API-Security师傅的APIKit1.0进行的二开，增加了扫描开关，避免直接打开burp乱扫被抓起来。
+-  该版本APIKit是对API-Security项目的APIKit1.0进行的二开，增加了扫描开关，避免直接打开burp乱扫被抓起来。
 - 修复了输出页面卡死的问题。
 - Do Target API Scan页面将cookie的输入框变大了一些，更美观的输入。
 - 感谢原作者的贡献，原项目地址：https://github.com/API-Security/APIKit
