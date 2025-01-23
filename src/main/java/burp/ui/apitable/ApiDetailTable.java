@@ -35,6 +35,7 @@ public class ApiDetailTable
         this.setShowGrid(false);
         this.setRowHeight(20);
         this.setIntercellSpacing(new Dimension(0, 0));
+        this.setAutoCreateRowSorter(true);
         this.getSelectionModel().addListSelectionListener(e -> {
             int modelRow;
             ApiDetailEntity selected;

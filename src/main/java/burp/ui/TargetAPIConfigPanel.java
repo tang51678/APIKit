@@ -39,6 +39,8 @@ public class TargetAPIConfigPanel
     private final JTextField APIDocumentURL = new JTextField("https://apisecurity.cn/api/mappings");
     private final JLabel Header = new JLabel("Header(\u901a\u8fc7\u6362\u884c\u53ef\u4ee5\u6dfb\u52a0\u591a\u4e2aheader)", 0);
     private final JTextArea Headervalue = new JTextArea("Cookie: APIKit=APISecurity; ");
+    private final JLabel BypassSuffix = new JLabel("Bypass Suffix（支持Swagger和spring）", 0);
+    private final JTextField BypassSuffixValue = new JTextField("");
     private final JButton btScan = new JButton("Scan");
     private final JButton btCancel = new JButton("Cancel");
     private JTextArea headerArea;
@@ -78,7 +80,7 @@ public class TargetAPIConfigPanel
     }
 
     private void initGUI() {
-        this.centerPanel.setLayout(new GridLayout(4, 2, 1, 1));
+        this.centerPanel.setLayout(new GridLayout(5, 2, 1, 1));
         this.centerPanel.add(this.APIType);
         this.centerPanel.add(this.APITypes);
         for (String APITypeName : Constants.APITypeNames) {
@@ -97,6 +99,8 @@ public class TargetAPIConfigPanel
         headerScrollPane.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         this.centerPanel.add(this.Header);
         this.centerPanel.add(headerScrollPane);
+        this.centerPanel.add(this.BypassSuffix);
+        this.centerPanel.add(this.BypassSuffixValue);
         this.bottomPanel.setLayout(new FlowLayout(1));
         this.bottomPanel.add(this.btScan);
         this.bottomPanel.add(this.btCancel);
@@ -127,6 +131,7 @@ public class TargetAPIConfigPanel
                 BurpExtender.TargetAPI.put("APIDocumentURL", TargetAPIConfigPanel.this.APIDocumentURL.getText().trim());
                 BurpExtender.TargetAPI.put("Header", TargetAPIConfigPanel.this.Headervalue.getText().trim());
                 BurpExtender.TargetAPI.put("APITypename", (String) TargetAPIConfigPanel.this.APITypes.getSelectedItem());
+                BurpExtender.TargetAPI.put("BypassSuffix", TargetAPIConfigPanel.this.BypassSuffixValue.getText().trim());
                 TargetAPIScan targetAPIScan = new TargetAPIScan();
                 targetAPIScan.start();
                 try {

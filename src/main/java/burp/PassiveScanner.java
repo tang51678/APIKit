@@ -49,6 +49,7 @@ public class PassiveScanner
         ApiTypeGraphQL.scannedUrl.clear();
         ApiTypeSoap.scannedUrl.clear();
         ApiTypeSwagger.scannedUrl.clear();
+        this.apiScanner.clearScanState();
     }
 
     public ApiScanner getApiScanner() {

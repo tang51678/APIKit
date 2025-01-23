@@ -144,6 +144,23 @@ public class ApiTypeActuator
                         href = basePath == null ? CommonUtils.combineURLs(UrlWithoutFilename, CommonUtils.getUrlPath(hrefUrl)) : CommonUtils.combineURLs(BaseURLPath, CommonUtils.getUrlPath(hrefUrl));
                         String uri = hrefUrl.getPath();
                         if (href.contains("{") || href.contains("}")) continue;
+                        if (isTargetScan && !this.isPassive) {
+                            String bypassSuffix = BurpExtender.TargetAPI.get("BypassSuffix");
+                            if (bypassSuffix != null && !bypassSuffix.isEmpty()) {
+                                int queryIndex = uri.indexOf('?');
+                                if (queryIndex != -1) {
+                                    uri = uri.substring(0, queryIndex) + bypassSuffix + uri.substring(queryIndex);
+                                } else {
+                                    uri = uri + bypassSuffix;
+                                }
+                                queryIndex = href.indexOf('?');
+                                if (queryIndex != -1) {
+                                    href = href.substring(0, queryIndex) + bypassSuffix + href.substring(queryIndex);
+                                } else {
+                                    href = href + bypassSuffix;
+                                }
+                            }
+                        }
                         try {
                             newRequest = this.helpers.buildHttpRequest(new URL(href));
                             newRequest = basePath == null ? CookieManager.getRequest(apiDocument, newRequest) : CookieManager.getRequest(basePath, newRequest);
@@ -178,6 +195,23 @@ public class ApiTypeActuator
                                 while (href.endsWith("*")) {
                                     href = href.substring(0, href.length() - 1);
                                 }
+                                if (isTargetScan && !this.isPassive) {
+                                    String bypassSuffix = BurpExtender.TargetAPI.get("BypassSuffix");
+                                    if (bypassSuffix != null && !bypassSuffix.isEmpty()) {
+                                        int queryIndex = path.indexOf('?');
+                                        if (queryIndex != -1) {
+                                            path = path.substring(0, queryIndex) + bypassSuffix + path.substring(queryIndex);
+                                        } else {
+                                            path = path + bypassSuffix;
+                                        }
+                                        queryIndex = href.indexOf('?');
+                                        if (queryIndex != -1) {
+                                            href = href.substring(0, queryIndex) + bypassSuffix + href.substring(queryIndex);
+                                        } else {
+                                            href = href + bypassSuffix;
+                                        }
+                                    }
+                                }
                                 try {
                                     newRequest = this.helpers.buildHttpRequest(new URL(href));
                                     newRequest = basePath == null ? CookieManager.getRequest(apiDocument, newRequest) : CookieManager.getRequest(basePath, newRequest);
@@ -211,6 +245,23 @@ public class ApiTypeActuator
                         if (path.endsWith("/")) continue;
                         href = basePath == null ? CommonUtils.combineURLs(UrlWithoutFilename.substring(0, UrlWithoutFilename.length() - 10), path) : CommonUtils.combineURLs(BaseURLPath, path);
                         uri = path;
+                        if (isTargetScan && !this.isPassive) {
+                            String bypassSuffix = BurpExtender.TargetAPI.get("BypassSuffix");
+                            if (bypassSuffix != null && !bypassSuffix.isEmpty()) {
+                                int queryIndex = uri.indexOf('?');
+                                if (queryIndex != -1) {
+                                    uri = uri.substring(0, queryIndex) + bypassSuffix + uri.substring(queryIndex);
+                                } else {
+                                    uri = uri + bypassSuffix;
+                                }
+                                queryIndex = href.indexOf('?');
+                                if (queryIndex != -1) {
+                                    href = href.substring(0, queryIndex) + bypassSuffix + href.substring(queryIndex);
+                                } else {
+                                    href = href + bypassSuffix;
+                                }
+                            }
+                        }
                         try {
                             newRequest = this.helpers.buildHttpRequest(new URL(href));
                             newRequest = basePath == null ? CookieManager.getRequest(apiDocument, newRequest) : CookieManager.getRequest(basePath, newRequest);
@@ -252,6 +303,10 @@ public class ApiTypeActuator
     public String exportConsole() {
         String stringBuilder = "\n============== API \u6307\u7eb9\u8be6\u60c5 ============\nxxxx\n\u8be6\u60c5\u8bf7\u67e5\u770b - Burp Scanner \u6a21\u5757 - Issue activity \u754c\u9762\n===================================";
         return stringBuilder;
+    }
+
+    public void clearScanState() {
+        scannedUrl.clear();
     }
 }
 

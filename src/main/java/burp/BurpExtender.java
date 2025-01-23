@@ -27,7 +27,7 @@ import java.util.List;
 public class BurpExtender
         implements IBurpExtender,
         IExtensionStateListener {
-    public static String VERSION = "1.6.0";
+    public static String VERSION = "1.6.2";
     public static String NAME = "APIKit";
     public static String FULLNAME = NAME + "pro v " + VERSION;
     public static HashMap<String, String> TargetAPI = new HashMap();

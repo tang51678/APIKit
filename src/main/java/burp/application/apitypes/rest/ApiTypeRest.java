@@ -144,8 +144,11 @@ public class ApiTypeRest
         for (Map.Entry<List<String>, byte[]> apiReq : apiRequests.entrySet()) {
             String uri = Arrays.asList(apiReq.getKey().get(0).split(" ")).get(1);
             headers = apiReq.getKey();
-            if (isTargetScan) {
-                HttpRequestFormator.TrimDupHeader(headers);
+            if (isTargetScan && !this.isPassive) {
+                String bypassSuffix = BurpExtender.TargetAPI.get("BypassSuffix");
+                if (bypassSuffix != null && !bypassSuffix.isEmpty()) {
+                    HttpRequestFormator.TrimDupHeader(headers);
+                }
             }
             newRequest = this.helpers.buildHttpMessage(headers, apiReq.getValue());
             HttpRequestResponse tempRequestResponse = new HttpRequestResponse();

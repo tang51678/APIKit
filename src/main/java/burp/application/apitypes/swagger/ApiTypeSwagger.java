@@ -268,6 +268,31 @@ public class ApiTypeSwagger
                 for (Map.Entry<List<String>, byte[]> apiReq : apiRequest.entrySet()) {
                     String uri = Arrays.asList(apiReq.getKey().get(0).split(" ")).get(1);
                     headers = apiReq.getKey();
+                    
+                    if (isTargetScan && !this.isPassive) {
+                        String bypassSuffix = BurpExtender.TargetAPI.get("BypassSuffix");
+                        if (bypassSuffix != null && !bypassSuffix.isEmpty()) {
+                            int queryIndex = uri.indexOf('?');
+                            if (queryIndex != -1) {
+                                uri = uri.substring(0, queryIndex) + bypassSuffix + uri.substring(queryIndex);
+                            } else {
+                                uri = uri + bypassSuffix;
+                            }
+                            
+                            // 更新请求头中的URI
+                            for (int i = 0; i < headers.size(); i++) {
+                                String header = headers.get(i);
+                                if (header.startsWith("GET ") || header.startsWith("POST ") || 
+                                    header.startsWith("PUT ") || header.startsWith("DELETE ")) {
+                                    String[] parts = header.split(" ");
+                                    parts[1] = uri;
+                                    headers.set(i, String.join(" ", parts));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
                     if (isTargetScan) {
                         HttpRequestFormator.TrimDupHeader(headers);
                     }
@@ -311,5 +336,7 @@ public class ApiTypeSwagger
         String stringBuilder = "\n============== API \u6307\u7eb9\u8be6\u60c5 ============\nxxxx\n\u8be6\u60c5\u8bf7\u67e5\u770b - Burp Scanner \u6a21\u5757 - Issue activity \u754c\u9762\n===================================";
         return stringBuilder;
     }
+    public void clearScanState() {
+        scannedUrl.clear();
+    }
 }
-

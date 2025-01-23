@@ -57,5 +57,20 @@ public class ApiScanner {
         }
         return apiTypes;
     }
+
+    public void clearScanState() {
+        for (BiFunction<IHttpRequestResponse, Boolean, ApiType> constructor : apiTypeConstructors) {
+            try {
+                ApiType apiType = constructor.apply(null, true);
+                if (apiType instanceof ApiTypeActuator) {
+                    ((ApiTypeActuator) apiType).clearScanState();
+                } else if (apiType instanceof ApiTypeSwagger) {
+                    ((ApiTypeSwagger) apiType).clearScanState();
+                }
+            } catch (Exception e) {
+                BurpExtender.getStderr().println(CommonUtils.exceptionToString(e));
+            }
+        }
+    }
 }
 
