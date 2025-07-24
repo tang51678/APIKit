@@ -17,13 +17,73 @@
 - 支持多种API类型识别
 <img width="1824" alt="image" src="https://github.com/user-attachments/assets/87cc6dcc-8f9d-4496-9cf4-419db66c6947" />
 
-### 新增功能
+### 版本 1.6.3 新增功能
 1. **Scanner Enabled**: 扫描开关控制
 <img width="666" alt="image" src="https://github.com/user-attachments/assets/88d8abbd-cd3b-4614-b1e2-1763f45baf4f" />
 
 2. **Send with Cookie**: 支持保留原始Cookie
 3. **Auto Request**: 自动扫描所有发现的API接口
 4. **Bypass扫描**: 支持自定义bypass后缀(如;.js)
+
+### 版本 1.6.3 新增功能
+
+#### 用户界面增强
+1. **API接口列表新增序号列**
+   - 在API接口列表中添加了 `#` 列
+   - 自动为每个接口生成顺序编号
+   - 提供更清晰的接口展示顺序和数量
+
+2. **内容长度显示优化**
+   - 修复了Content Length列显示不正确的问题
+   - 准确计算API文档和接口的响应长度
+   - 支持多种响应长度获取方式：
+     * 优先读取响应头中的Content-Length
+     * 自动计算响应体实际长度
+     * 兼容处理空响应和异常情况
+
+#### 过滤功能增强
+1. **FilterPath 路径过滤**
+   - 支持精确和模糊匹配路径
+   - 可配置多个过滤关键词
+   - 过滤路径将显示在API接口列表中，并标记为 `[FILTERED]`
+   - 被过滤的路径返回自定义的 403 Forbidden 响应
+
+2. **FilterHost 主机过滤**
+   - 支持配置允许扫描的主机列表
+   - 使用 `*` 表示允许所有主机
+   - 精确匹配和模糊匹配主机名
+   - 有效防止扫描非预期的目标
+
+#### 过滤配置示例
+```
+# 过滤特定路径
+FilterPath: /debug/config,/admin/panel
+
+# 过滤特定主机
+FilterHost: example.com,*.test.org
+```
+
+#### 使用建议
+- 谨慎配置过滤规则，避免过度限制
+- 使用 `*` 作为通配符可以灵活控制扫描范围
+- 建议先使用宽松的过滤规则，逐步调整
+
+#### 性能与稳定性
+- 优化了API接口重复扫描问题
+- 提高了过滤逻辑的准确性
+- 减少不必要的网络请求
+
+#### 兼容性
+- 完全兼容 Burp Suite
+- 支持多种 API 类型：REST, Swagger, GraphQL, SOAP
+- 适用于各种 Web 应用安全测试场景
+
+#### 已知问题与局限性
+- 过滤规则目前仅支持文本匹配
+- 复杂的路由规则可能需要手动调整
+
+<img width="3200" height="1770" alt="PixPin_2025-07-24_21-36-09" src="https://github.com/user-attachments/assets/9c69fb20-e744-47b2-bbf3-9113fbadde5c" />
+
 
 ## 使用说明
 
