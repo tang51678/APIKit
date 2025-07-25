@@ -2,59 +2,89 @@
 
 ## 简介
 
-这是一个基于[API-Security/APIKit](https://github.com/API-Security/APIKit)的增强版本，主要改进：
+APIKit Pro 是基于 [API-Security/APIKit](https://github.com/API-Security/APIKit) 的增强版本，专注于提升API安全测试体验和效率。
 
-- 🛡️ 新增扫描开关，避免Burp启动时自动扫描
-- 🚀 修复输出页面卡死问题
-- 🎨 优化UI界面，改进cookie输入框布局
-- 🔍 新增Bypass扫描功能
+## 核心优势
 
-## 主要功能
+### 🚀 智能扫描控制
+- **灵活扫描开关**：精准控制扫描范围
+- **自动/手动扫描模式**：满足不同安全测试需求
+- **自定义扫描策略**：支持精细化API接口探测
 
-### 基础功能
-- 支持主动/被动扫描发现API文档
-- 自动解析API文档并生成Burp数据包
-- 支持多种API类型识别
-<img width="1824" alt="image" src="https://github.com/user-attachments/assets/87cc6dcc-8f9d-4496-9cf4-419db66c6947" />
+### 🔍 多维度API识别
+- 支持多种API类型：
+  * REST
+  * Swagger
+  * GraphQL
+  * SOAP
+- 自动解析API文档
+- 智能生成Burp测试数据包
 
-### 版本 1.6.3 新增功能
-1. **Scanner Enabled**: 扫描开关控制
-<img width="666" alt="image" src="https://github.com/user-attachments/assets/88d8abbd-cd3b-4614-b1e2-1763f45baf4f" />
+<img width="3200" height="1770" alt="多API类型识别" src="https://github.com/user-attachments/assets/3d5c03bd-5896-48e6-8400-c3d7b27d9504" />
 
-2. **Send with Cookie**: 支持保留原始Cookie
-3. **Auto Request**: 自动扫描所有发现的API接口
-4. **Bypass扫描**: 支持自定义bypass后缀(如;.js)
 
-### 版本 1.6.3 新增功能
+### 🛡️ 安全增强功能
+- **Bypass扫描**：支持自定义绕过后缀
+- **Cookie保留**：保持原始会话上下文
+- **路径/主机过滤**：精准控制扫描范围
+
+## 功能详解
+
+### 扫描模式
+
+#### 自动扫描
+1. 开启 **Scanner Enabled**
+2. 被动扫描访问流量中的API文档
+3. **Auto Request**：自动扫描所有发现的API接口
+
+<img width="3200" height="1704" alt="扫描开关" src="https://github.com/user-attachments/assets/b33c8696-4d3c-4985-a3bd-ec2ebf8a57a0" />
+
+
+#### 手动扫描
+- **Do Auto API scan**：右键请求，快速API指纹探测
+- **Do Target API Scan**：
+  * 配置API类型
+  * 设置BasePath
+  * 自定义文档路径
+  * 配置Bypass策略
+
+<img width="1827" alt="目标API扫描" src="https://github.com/user-attachments/assets/53bca247-697a-4e62-a75f-0b4eb1b5d86f" />
+
+### 高级过滤功能
+
+#### FilterPath 路径过滤
+- 支持精确/模糊匹配
+- 多关键词配置
+- 被过滤路径标记为 `[FILTERED]`
+
+#### FilterHost 主机过滤
+- 灵活的主机名匹配
+- 支持通配符 `*`
+- 精确控制扫描范围
+
+<img width="3200" height="580" alt="高级过滤功能" src="https://github.com/user-attachments/assets/cec6f316-e3b1-42c9-af3b-9336acc43bbb" />
+
+
+### 版本 1.6.3 重点优化
 
 #### 用户界面增强
-1. **API接口列表新增序号列**
-   - 在API接口列表中添加了 `#` 列
-   - 自动为每个接口生成顺序编号
-   - 提供更清晰的接口展示顺序和数量
+- API接口列表新增序号列
+- 优化内容长度显示
+- 提升界面可读性
 
-2. **内容长度显示优化**
-   - 修复了Content Length列显示不正确的问题
-   - 准确计算API文档和接口的响应长度
-   - 支持多种响应长度获取方式：
-     * 优先读取响应头中的Content-Length
-     * 自动计算响应体实际长度
-     * 兼容处理空响应和异常情况
+#### 性能优化
+- 减少API接口重复扫描
+- 提高过滤逻辑准确性
+- 优化网络请求处理
 
-#### 过滤功能增强
-1. **FilterPath 路径过滤**
-   - 支持精确和模糊匹配路径
-   - 可配置多个过滤关键词
-   - 过滤路径将显示在API接口列表中，并标记为 `[FILTERED]`
-   - 被过滤的路径返回自定义的 403 Forbidden 响应
+## 使用示例
 
-2. **FilterHost 主机过滤**
-   - 支持配置允许扫描的主机列表
-   - 使用 `*` 表示允许所有主机
-   - 精确匹配和模糊匹配主机名
-   - 有效防止扫描非预期的目标
+### Bypass扫描示例
+- `http://localhost:8089/actuator/health;.js`
+- `http://localhost:8089/auth/adminlogin;.js?id=123`
 
-#### 过滤配置示例
+## 配置参考
+
 ```
 # 过滤特定路径
 FilterPath: /debug/config,/admin/panel
@@ -63,48 +93,10 @@ FilterPath: /debug/config,/admin/panel
 FilterHost: example.com,*.test.org
 ```
 
-#### 使用建议
-- 谨慎配置过滤规则，避免过度限制
-- 使用 `*` 作为通配符可以灵活控制扫描范围
-- 建议先使用宽松的过滤规则，逐步调整
-
-#### 性能与稳定性
-- 优化了API接口重复扫描问题
-- 提高了过滤逻辑的准确性
-- 减少不必要的网络请求
-
-#### 兼容性
+## 兼容性
 - 完全兼容 Burp Suite
 - 支持多种 API 类型：REST, Swagger, GraphQL, SOAP
 - 适用于各种 Web 应用安全测试场景
-
-#### 已知问题与局限性
-- 过滤规则目前仅支持文本匹配
-- 复杂的路由规则可能需要手动调整
-
-<img width="3200" height="1770" alt="PixPin_2025-07-24_21-36-09" src="https://github.com/user-attachments/assets/9c69fb20-e744-47b2-bbf3-9113fbadde5c" />
-
-
-## 使用说明
-
-### 自动扫描
-开启**Scanner Enabled**按钮，即可被动扫描访问流量中存在的API文档，敏感路径等，开启 **Auto Request**: 自动扫描所有发现的API接口
-<img width="666" alt="image" src="https://github.com/user-attachments/assets/88d8abbd-cd3b-4614-b1e2-1763f45baf4f" />
-
-### 手动扫描
-#### Do Auto API scan
-右键任意请求 -> 选择"Do Auto API scan" -> 开始API指纹探测
-
-#### Do Target API Scan
-1. 右键选择"Do Target API scan"
-2. 配置API类型、BasePath、文档路径等
-3. 可选配置Bypass后缀进行绕过测试
-
-`如接口时http://localhost:8089/actuator/health，拼接字段就变成了http://localhost:8089/actuator/health;.js`
-
-`如果存在参数，如http://localhost:8089/auth/adminlogin?id=123拼接后就变成了http://localhost:8089/auth/adminlogin;.js?id=123`
-
-<img width="1827" alt="image" src="https://github.com/user-attachments/assets/53bca247-697a-4e62-a75f-0b4eb1b5d86f" />
 
 ## 免责声明
 
@@ -117,6 +109,5 @@ FilterHost: example.com,*.test.org
 7. 除非您已充分阅读、完全理解并接受本协议所有条款，否则，请您不要安装并使用本工具。
 8. 您的使用行为或者您以其他任何明示或者默示方式表示接受本协议的，即视为您已阅读并同意本协议的约束。
 
-
 ## 致谢
-感谢[API-Security/APIKit](https://github.com/API-Security/APIKit)项目的原作者。
+感谢 [API-Security/APIKit](https://github.com/API-Security/APIKit) 项目的原作者。
