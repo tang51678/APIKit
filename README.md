@@ -150,7 +150,9 @@ FilterHost: example.com,*.test.org
 
 ## 致谢
 
-感谢 [API-Security/APIKit](https://github.com/API-Security/APIKit) 项目的原作者，以及所有为 API 安全做出贡献的开发者们。
+感谢 [API-Security/APIKit](https://github.com/API-Security/APIKit) 项目的原作者，
+感谢 [API-Security/APIKit]((https://github.com/XF-FS/APIKit) 项目的作者，
+以及所有为 API 安全做出贡献的开发者们。
 
 ## 许可证
 
