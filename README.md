@@ -104,8 +104,9 @@ mvn clean package
 3. 所有选中的 URL 将被复制到剪贴板，每个 URL 占一行
 
 <div align="center">
-  <img width="600" alt="多选URL复制" src="https://raw.githubusercontent.com/tang51678/APIKit/master/screenshots/multi-select-copy.png" />
+  <img width="600" alt="多选URL复制" src="https://github.com/user-attachments/assets/24f79631-fd82-4f7f-8ef2-1a2091dd22a" />
 </div>
+
 
 ## 实用示例
 
