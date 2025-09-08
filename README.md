@@ -93,9 +93,7 @@ mvn clean package
 2. 右键点击选择 **Copy URL(s)**
 3. 所有选中的 URL 将被复制到剪贴板，每个 URL 占一行
 
-<div align="center">
-  <img width="600" alt="多选URL复制" src="https://github.com/user-attachments/assets/24f79631-fd82-4f7f-8ef2-1a2091dd22a" />
-</div>
+<img width="1919" height="436" alt="image" src="https://github.com/user-attachments/assets/92914f78-4216-47a0-8c4d-e7d9229a2eb8" />
 
 
 ## 实用示例
