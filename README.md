@@ -66,10 +66,6 @@ mvn clean package
 2. 工具将被动扫描访问流量中的 API 文档
 3. 启用 **Auto Request** 可自动扫描所有发现的 API 接口
 
-<div align="center">
-  <img width="800" alt="扫描开关" src="https://raw.githubusercontent.com/tang51678/APIKit/master/screenshots/scanner-switch.png" />
-</div>
-
 #### 手动扫描
 - 在 Burp Suite 中右键点击请求，选择 **Do Auto API scan** 快速进行 API 指纹探测
 - 选择 **Do Target API Scan** 可进行更精细的配置：
@@ -78,9 +74,6 @@ mvn clean package
   - 自定义文档路径
   - 配置 Bypass 策略
 
-<div align="center">
-  <img width="600" alt="目标API扫描" src="https://raw.githubusercontent.com/tang51678/APIKit/master/screenshots/target-scan.png" />
-</div>
 
 ### 高级过滤功能
 
@@ -94,9 +87,6 @@ mvn clean package
 - 支持通配符 `*`
 - 精确控制扫描范围
 
-<div align="center">
-  <img width="800" alt="高级过滤功能" src="https://raw.githubusercontent.com/tang51678/APIKit/master/screenshots/filter-features.png" />
-</div>
 
 ### URL 批量复制功能
 1. 使用 Shift+点击 或 Ctrl+点击 选择多个 API URL
