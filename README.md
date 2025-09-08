@@ -1,7 +1,6 @@
 # APIKit Pro
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/tang51678/APIKit/master/logo.png" alt="APIKit Pro Logo" width="200"/>
   <p>🔍 专业的API安全测试增强工具，让API安全测试更高效、更智能</p>
   <div>
     <a href="https://github.com/tang51678/APIKit/releases"><img src="https://img.shields.io/github/v/release/tang51678/APIKit?style=flat-square" alt="Release Version"/></a>
