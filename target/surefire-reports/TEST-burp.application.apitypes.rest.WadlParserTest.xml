@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="burp.application.apitypes.rest.WadlParserTest" time="0.032" tests="1" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="GBK"/>
+    <property name="java.class.path" value="D:\desktop\share\APIKit\target\test-classes;D:\desktop\share\APIKit\target\classes;D:\exedata\apache-maven-3.9.6\maven-repo\net\portswigger\burp\extender\burp-extender-api\1.7.22\burp-extender-api-1.7.22.jar;D:\desktop\share\APIKit\soa-model-core-1.6.4-SNAPSHOT-patched-jar-with-dependencies.jar;D:\exedata\apache-maven-3.9.6\maven-repo\org\yaml\snakeyaml\1.27\snakeyaml-1.27.jar;D:\exedata\apache-maven-3.9.6\maven-repo\com\google\code\gson\gson\2.8.7\gson-2.8.7.jar;D:\exedata\apache-maven-3.9.6\maven-repo\org\junit\jupiter\junit-jupiter-api\5.7.0\junit-jupiter-api-5.7.0.jar;D:\exedata\apache-maven-3.9.6\maven-repo\org\apiguardian\apiguardian-api\1.1.0\apiguardian-api-1.1.0.jar;D:\exedata\apache-maven-3.9.6\maven-repo\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;D:\exedata\apache-maven-3.9.6\maven-repo\org\junit\platform\junit-platform-commons\1.7.0\junit-platform-commons-1.7.0.jar;D:\exedata\apache-maven-3.9.6\maven-repo\org\junit\jupiter\junit-jupiter-engine\5.7.0\junit-jupiter-engine-5.7.0.jar;D:\exedata\apache-maven-3.9.6\maven-repo\org\junit\platform\junit-platform-engine\1.7.0\junit-platform-engine-1.7.0.jar;"/>
+    <property name="java.vm.vendor" value="Amazon.com Inc."/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://aws.amazon.com/corretto/"/>
+    <property name="user.timezone" value="Asia/Shanghai"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="21"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="CN"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk21.0.4_7\bin"/>
+    <property name="sun.java.command" value="C:\Users\21733\AppData\Local\Temp\surefire4619949616551057418\surefirebooter14584782381186938662.jar C:\Users\21733\AppData\Local\Temp\surefire4619949616551057418 2025-09-10T10-54-26_424-jvmRun1 surefire10602075958122905250tmp surefire_06365538567753748978tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="D:\desktop\share\APIKit\target\test-classes;D:\desktop\share\APIKit\target\classes;D:\exedata\apache-maven-3.9.6\maven-repo\net\portswigger\burp\extender\burp-extender-api\1.7.22\burp-extender-api-1.7.22.jar;D:\desktop\share\APIKit\soa-model-core-1.6.4-SNAPSHOT-patched-jar-with-dependencies.jar;D:\exedata\apache-maven-3.9.6\maven-repo\org\yaml\snakeyaml\1.27\snakeyaml-1.27.jar;D:\exedata\apache-maven-3.9.6\maven-repo\com\google\code\gson\gson\2.8.7\gson-2.8.7.jar;D:\exedata\apache-maven-3.9.6\maven-repo\org\junit\jupiter\junit-jupiter-api\5.7.0\junit-jupiter-api-5.7.0.jar;D:\exedata\apache-maven-3.9.6\maven-repo\org\apiguardian\apiguardian-api\1.1.0\apiguardian-api-1.1.0.jar;D:\exedata\apache-maven-3.9.6\maven-repo\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;D:\exedata\apache-maven-3.9.6\maven-repo\org\junit\platform\junit-platform-commons\1.7.0\junit-platform-commons-1.7.0.jar;D:\exedata\apache-maven-3.9.6\maven-repo\org\junit\jupiter\junit-jupiter-engine\5.7.0\junit-jupiter-engine-5.7.0.jar;D:\exedata\apache-maven-3.9.6\maven-repo\org\junit\platform\junit-platform-engine\1.7.0\junit-platform-engine-1.7.0.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\21733"/>
+    <property name="user.language" value="zh"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2024-07-16"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk21.0.4_7"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="D:\desktop\share\APIKit"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\21733\AppData\Local\Temp\surefire4619949616551057418\surefirebooter14584782381186938662.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="21.0.4+7-LTS"/>
+    <property name="user.name" value="tangkaixing"/>
+    <property name="stdout.encoding" value="GBK"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Corretto-21.0.4.7.1"/>
+    <property name="localRepository" value="D:\exedata\apache-maven-3.9.6\maven-repo"/>
+    <property name="java.vendor.url.bug" value="https://github.com/corretto/corretto-21/issues/"/>
+    <property name="java.io.tmpdir" value="C:\Users\21733\AppData\Local\Temp\"/>
+    <property name="java.version" value="21.0.4"/>
+    <property name="user.dir" value="D:\desktop\share\APIKit"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="GBK"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk21.0.4_7\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;D:\exedata\vm\bin\;D:\exedata\Ruby31-x64\bin;C:\Program Files\Java\jdk21.0.4_7\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Bandizip\;D:\exedata\Git\cmd;D:\sysview\netcat-win32-1.12;D:\sysview;D:\exedata\go\bin;D:\desktop\fsdownload\go\bin;D:\exedata\go\bin;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\exedata\微信web开发者工具\dll;D:\exedata\apache-maven-3.9.6\bin;C:\Program Files\Google\Chrome\Application;D:\sysview\curl\bin;D:\exedata\Nmap;D:\exedata\adb;C:\Users\21733\AppData\Local\Programs\Python\Python38\Scripts;D:\exedata\nvm;D:\exedata\nvm;D:\exedata\nojs;D:\install\nodejs\node_global;D:\exedata\nojs\node_global\node_modules\yarn\bin;C:\ProgramData\ComposerSetup\bin;D:\exedata\GnuWin32\bin;D:\exedata\nojs\node_global;C:\Users\21733\AppData\Local\Programs\python27;C:\Users\21733\AppData\Local\Programs\python27\Scripts;D:\exedata\OpenSSL-Win64\bin;D:\exedata\OpenVPN\bin;E:\phpstudy_pro\Extensions\php\php8.0.2nts;D:\exedata\tesseractorc;C:\Users\21733\AppData\Local\Programs\Python\Python38\Scripts\;C:\Users\21733\AppData\Local\Programs\Python\Python38\;C:\Users\21733\AppData\Local\Microsoft\WindowsApps;D:\exedata\Microsoft VS Code\bin;D:\exedata\PyCharm 2022.2.5\bin;node_global;C:\Users\21733\go\bin;C:\Users\21733\.dotnet\tools;D:\exedata\Nmap;c:\users\21733\.local\bin;D:\exedata\nvm;D:\exedata\nojs;C:\Users\21733\AppData\Roaming\Composer\vendor\bin;C:\Users\21733\AppData\Local\Microsoft\WindowsApps;;C:\Users\21733\AppData\Local\Programs\Ollama;C:\Users\21733\AppData\Local\Pandoc\;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="GBK"/>
+    <property name="java.vendor" value="Amazon.com Inc."/>
+    <property name="java.vm.version" value="21.0.4+7-LTS"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="65.0"/>
+  </properties>
+  <testcase name="test" classname="burp.application.apitypes.rest.WadlParserTest" time="0.027"/>
+</testsuite>
