@@ -42,7 +42,7 @@ public class ApiTypeGraphQL
     private final IExtensionHelpers helpers;
     private final IBurpExtenderCallbacks callbacks;
     private final IHttpRequestResponse baseRequestResponse;
-    private final String graphQLIntrospectionRequestJSON = "cXVlcnkgUXVlcnkgewogICAgX19zY2hlbWEgewogICAgICBxdWVyeVR5cGUgeyBuYW1lIH0KICAgICAgbXV0YXRpb25UeXBlIHsgbmFtZSB9CiAgICAgIHN1YnNjcmlwdGlvblR5cGUgeyBuYW1lIH0KICAgICAgdHlwZXMgewogICAgICAgIC4uLkZ1bGxUeXBlCiAgICAgIH0KICAgICAgZGlyZWN0aXZlcyB7CiAgICAgICAgbmFtZQogICAgICAgIGRlc2NyaXB0aW9uCiAgICAgICAgbG9jYXRpb25zCiAgICAgICAgYXJncyB7CiAgICAgICAgICAuLi5JbnB1dFZhbHVlCiAgICAgICAgfQogICAgICB9CiAgICB9CiAgfQoKICBmcmFnbWVudCBGdWxsVHlwZSBvbiBfX1R5cGUgewogICAga2luZAogICAgbmFtZQogICAgZGVzY3JpcHRpb24KICAgIGZpZWxkcyhpbmNsdWRlRGVwcmVjYXRlZDogdHJ1ZSkgewogICAgICBuYW1lCiAgICAgIGRlc2NyaXB0aW9uCiAgICAgIGFyZ3MgewogICAgICAgIC4uLklucHV0VmFsdWUKICAgICAgfQogICAgICB0eXBlIHsKICAgICAgICAuLi5UeXBlUmVmCiAgICAgIH0KICAgICAgaXNEZXByZWNhdGVkCiAgICAgIGRlcHJlY2F0aW9uUmVhc29uCiAgICB9CiAgICBpbnB1dEZpZWxkcyB7CiAgICAgIC4uLklucHV0VmFsdWUKICAgIH0KICAgIGludGVyZmFjZXMgewogICAgICAuLi5UeXBlUmVmCiAgICB9CiAgICBlbnVtVmFsdWVzKGluY2x1ZGVEZXByZWNhdGVkOiB0cnVlKSB7CiAgICAgIG5hbWUKICAgICAgZGVzY3JpcHRpb24KICAgICAgaXNEZXByZWNhdGVkCiAgICAgIGRlcHJlY2F0aW9uUmVhc29uCiAgICB9CiAgICBwb3NzaWJsZVR5cGVzIHsKICAgICAgLi4uVHlwZVJlZgogICAgfQogIH0KCiAgZnJhZ21lbnQgSW5wdXRWYWx1ZSBvbiBfX0lucHV0VmFsdWUgewogICAgbmFtZQogICAgZGVzY3JpcHRpb24KICAgIHR5cGUgeyAuLi5UeXBlUmVmIH0KICAgIGRlZmF1bHRWYWx1ZQogIH0KCiAgZnJhZ21lbnQgVHlwZVJlZiBvbiBfX1R5cGUgewogICAga2luZAogICAgbmFtZQogICAgb2ZUeXBlIHsKICAgICAga2luZAogICAgICBuYW1lCiAgICAgIG9mVHlwZSB7CiAgICAgICAga2luZAogICAgICAgIG5hbWUKICAgICAgICBvZlR5cGUgewogICAgICAgICAga2luZAogICAgICAgICAgbmFtZQogICAgICAgICAgb2ZUeXBlIHsKICAgICAgICAgICAga2luZAogICAgICAgICAgICBuYW1lCiAgICAgICAgICAgIG9mVHlwZSB7CiAgICAgICAgICAgICAga2luZAogICAgICAgICAgICAgIG5hbWUKICAgICAgICAgICAgICBvZlR5cGUgewogICAgICAgICAgICAgICAga2luZAogICAgICAgICAgICAgICAgbmFtZQogICAgICAgICAgICAgICAgb2ZUeXBlIHsKICAgICAgICAgICAgICAgICAga2luZAogICAgICAgICAgICAgICAgICBuYW1lCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CiAgICAgICAgICB9CiAgICAgICAgfQogICAgICB9CiAgICB9CiAgfQ==";
+    private final String graphQLIntrospectionRequestJSON = "cXVlcnkgUXVlcnkgewogICAgX19zY2hlbWEgewogICAgICBxdWVyeVR5cGUgeyBuYW1lIH0KICAgICAgbXV0YXRpb25UeXBlIHsgbmFtZSB9CiAgICAgIHN1YnNjcmlwdGlvblR5cGUgeyBuYW1lIH0KICAgICAgdHlwZXMgewogICAgICAgIC4uLkZ1bGxUeXBlCiAgICAgIH0KICAgICAgZGlyZWN0aXZlcyB7CiAgICAgICAgbmFtZQogICAgICAgIGRlc2NyaXB0aW9uCiAgICAgICAgbG9jYXRpb24sCiAgICAgICAgYXJncyB7CiAgICAgICAgICAuLi5JbnB1dFZhbHVlCiAgICAgICAgfQogICAgICB9CiAgICB9CiAgfQoKICBmcmFnbWVudCBGdWxsVHlwZSBvbiBfX1R5cGUgewogICAga2luZAogICAgbmFtZQogICAgZGVzY3JpcHRpb24KICAgIGZpZWxkcyhpbmNsdWRlRGVwcmVjYXRlZDogdHJ1ZSkgewogICAgICBuYW1lCiAgICAgIGRlc2NyaXB0aW9uCiAgICAgIGFyZ3MgewogICAgICAgIC4uLklucHV0VmFsdWUKICAgICAgfQogICAgICB0eXBlIHsKICAgICAgICAuLi5UeXBlUmVmCiAgICAgIH0KICAgICAgaXNEZXByZWNhdGVkCiAgICAgIGRlcHJlY2F0aW9uUmVhc29uCiAgICB9CiAgICBpbnB1dEZpZWxkcyB7CiAgICAgIC4uLklucHV0VmFsdWUKICAgIH0KICAgIGludGVyZmFjZXMgewogICAgICAuLi5UeXBlUmVmCiAgICB9CiAgICBlbnVtVmFsdWVzKGluY2x1ZGVEZXByZWNhdGVkOiB0cnVlKSB7CiAgICAgIG5hbWUKICAgICAgZGVzY3JpcHRpb24KICAgICAgaXNEZXByZWNhdGVkCiAgICAgIGRlcHJlY2F0aW9uUmVhc29uCiAgICB9CiAgICBwb3NzaWJsZVR5cGVzIHsKICAgICAgLi4uVHlwZVJlZgogICAgfQogIH0KCiAgZnJhZ21lbnQgSW5wdXRWYWx1ZSBvbiBfX0lucHV0VmFsdWUgewogICAgbmFtZQogICAgZGVzY3JpcHRpb24KICAgIHR5cGUgeyAuLi5UeXBlUmVmIH0KICAgIGRlZmF1bHRWYWx1ZQogIH0KCiAgZnJhZ21lbnQgVHlwZVJlZiBvbiBfX1R5cGUgewogICAga2luZAogICAgbmFtZQogICAgb2ZUeXBlIHsKICAgICAga2luZAogICAgICBuYW1lCiAgICAgIG9mVHlwZSB7CiAgICAgICAga2luZAogICAgICAgIG5hbWUKICAgICAgICBvZlR5cGUgewogICAgICAgICAga2luZAogICAgICAgICAgbmFtZQogICAgICAgICAgb2ZUeXBlIHsKICAgICAgICAgICAga2luZAogICAgICAgICAgICBuYW1lCiAgICAgICAgICAgIG9mVHlwZSB7CiAgICAgICAgICAgICAga2luZAogICAgICAgICAgICAgIG5hbWUKICAgICAgICAgICAgICBvZlR5cGUgewogICAgICAgICAgICAgICAga2luZAogICAgICAgICAgICAgICAgbmFtZQogICAgICAgICAgICAgICAgb2ZUeXBlIHsKICAgICAgICAgICAgICAgICAga2luZAogICAgICAgICAgICAgICAgICBuYW1lCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CiAgICAgICAgICB9CiAgICAgICAgfQogICAgICB9CiAgICB9CiAgfQ==";
 
     public ApiTypeGraphQL(IHttpRequestResponse baseRequestResponse, Boolean isPassive) {
         this.setApiTypeName("GraphQLIntrospection");
@@ -84,10 +84,31 @@ public class ApiTypeGraphQL
     public Boolean urlAddPath(String apiDocumentUrl) {
         IHttpService httpService = this.baseRequestResponse.getHttpService();
         byte[] newRequest = null;
+        
+        // 修复：处理相对路径URL，避免MalformedURLException异常
+        if (apiDocumentUrl.startsWith("/")) {
+            // 如果是相对路径，基于当前请求的URL构建完整URL
+            String urlorgin = this.helpers.analyzeRequest(this.baseRequestResponse).getUrl().toString();
+            try {
+                URL base = new URL(urlorgin);
+                String protocol = base.getProtocol();
+                String host = base.getHost();
+                int port = base.getPort();
+                String portStr = (port != -1) ? ":" + port : "";
+                apiDocumentUrl = protocol + "://" + host + portStr + apiDocumentUrl;
+            } catch (MalformedURLException e) {
+                // 如果构建完整URL失败，记录错误并返回false
+                BurpExtender.getStderr().println("Failed to construct full URL from relative path: " + apiDocumentUrl);
+                return false;
+            }
+        }
+        
         try {
             newRequest = this.helpers.buildHttpRequest(new URL(apiDocumentUrl));
         } catch (MalformedURLException exception) {
-            throw new ApiKitRuntimeException(exception);
+            // 修复：捕获异常但不抛出，改为记录日志并返回false
+            BurpExtender.getStderr().println("Invalid URL: " + apiDocumentUrl + ", Error: " + exception.getMessage());
+            return false;
         }
         List<String> headers = this.helpers.analyzeRequest(newRequest).getHeaders();
         List<String> httpFirstLine = Arrays.asList(headers.get(0).split(" "));
@@ -98,6 +119,11 @@ public class ApiTypeGraphQL
         jsonBody.add("query", new JsonPrimitive(new String(this.helpers.base64Decode(this.graphQLIntrospectionRequestJSON))));
         newRequest = this.helpers.buildHttpMessage(headers, new Gson().toJson(jsonBody).getBytes());
         IHttpRequestResponse newHttpRequestResponse = CookieManager.makeHttpRequest(this.baseRequestResponse, newRequest);
+        // 添加空值检查，防止NullPointerException
+        if (newHttpRequestResponse == null || newHttpRequestResponse.getResponse() == null) {
+            return false;
+        }
+        
         if (this.helpers.analyzeResponse(newHttpRequestResponse.getResponse()).getStatusCode() == 200) {
             if (this.isPassive.booleanValue()) {
                 if (scannedUrl.get(this.helpers.analyzeRequest(newHttpRequestResponse).getUrl().toString()) <= 0) {
@@ -110,11 +136,19 @@ public class ApiTypeGraphQL
             try {
                 JsonObject jsonObject;
                 JsonElement element = JsonParser.parseString(responseJSON);
-                if (element.isJsonObject() && !(jsonObject = element.getAsJsonObject()).get("data").isJsonNull() && !jsonObject.get("data").getAsJsonObject().get("__schema").isJsonNull()) {
+                // 添加更严格的空值检查
+                if (element.isJsonObject() 
+                    && (jsonObject = element.getAsJsonObject()).has("data") 
+                    && jsonObject.get("data") != null 
+                    && !jsonObject.get("data").isJsonNull() 
+                    && jsonObject.get("data").getAsJsonObject().has("__schema")
+                    && jsonObject.get("data").getAsJsonObject().get("__schema") != null
+                    && !jsonObject.get("data").getAsJsonObject().get("__schema").isJsonNull()) {
                     ((HashMap) this.getApiDocuments()).put(apiDocumentUrl, newHttpRequestResponse);
                     return true;
                 }
             } catch (Exception ignored) {
+                // 处理畸形JSON异常
                 System.out.println(ignored.getMessage());
                 return false;
             }

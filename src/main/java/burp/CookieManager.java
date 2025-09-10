@@ -32,7 +32,12 @@ public class CookieManager
 
     public static IHttpRequestResponse makeHttpRequest(IHttpRequestResponse baseRequestResponse, byte[] request) {
         byte[] newRequest = CookieManager.getRequest(baseRequestResponse, request);
-        return BurpExtender.getCallbacks().makeHttpRequest(baseRequestResponse.getHttpService(), newRequest);
+        IHttpRequestResponse response = BurpExtender.getCallbacks().makeHttpRequest(baseRequestResponse.getHttpService(), newRequest);
+        // 添加空值检查
+        if (response == null) {
+            return null;
+        }
+        return response;
     }
 
     private String urlToOrigin(URL url) {

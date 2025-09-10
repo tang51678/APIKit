@@ -98,33 +98,56 @@ public class ApiTypeSwagger
 
     @Override
     public Boolean urlAddPath(String apiDocumentUrl) {
-        block28:
-        {
+        block28: {
             String resp;
-            block29:
-            {
+            block29: {
                 JsonArray apisarray;
                 JsonObject link;
                 IHttpRequestResponse newHttpRequestResponse;
                 boolean isapiobject;
-                block31:
-                {
+                block31: {
                     Object element;
-                    block30:
-                    {
+                    block30: {
                         IHttpService httpService = this.baseRequestResponse.getHttpService();
                         byte[] newRequest = null;
                         isapiobject = false;
+                        
+                        // 修复：处理相对路径URL，避免MalformedURLException异常
+                        if (apiDocumentUrl.startsWith("/")) {
+                            // 如果是相对路径，基于当前请求的URL构建完整URL
+                            String baseUrl = this.helpers.analyzeRequest(this.baseRequestResponse).getUrl().toString();
+                            try {
+                                URL base = new URL(baseUrl);
+                                String protocol = base.getProtocol();
+                                String host = base.getHost();
+                                int port = base.getPort();
+                                String portStr = (port != -1) ? ":" + port : "";
+                                apiDocumentUrl = protocol + "://" + host + portStr + apiDocumentUrl;
+                            } catch (MalformedURLException e) {
+                                // 如果构建完整URL失败，记录错误并返回false
+                                BurpExtender.getStderr().println("Failed to construct full URL from relative path: " + apiDocumentUrl);
+                                return false;
+                            }
+                        }
+                        
                         if (apiDocumentUrl.equals(this.helpers.analyzeRequest(this.baseRequestResponse).getUrl().toString())) {
                             newHttpRequestResponse = this.baseRequestResponse;
                         } else {
                             try {
                                 newRequest = this.helpers.buildHttpRequest(new URL(apiDocumentUrl));
                             } catch (MalformedURLException exception) {
-                                throw new ApiKitRuntimeException(exception);
+                                // 修复：捕获异常但不抛出，改为记录日志并返回false
+                                BurpExtender.getStderr().println("Invalid URL: " + apiDocumentUrl + ", Error: " + exception.getMessage());
+                                return false;
                             }
                             newHttpRequestResponse = CookieManager.makeHttpRequest(this.baseRequestResponse, newRequest);
                         }
+                        
+                        // 添加空值检查，防止NullPointerException
+                        if (newHttpRequestResponse == null || newHttpRequestResponse.getResponse() == null) {
+                            return false;
+                        }
+                        
                         String urlPath = CommonUtils.getUrlRootPath(this.helpers.analyzeRequest(newHttpRequestResponse).getUrl());
                         String urlBasePath = "";
                         String urlPathWithoutFilename = CommonUtils.getUrlWithoutFilename(this.helpers.analyzeRequest(newHttpRequestResponse).getUrl());
@@ -134,6 +157,12 @@ public class ApiTypeSwagger
                         if (RedirectUtils.isRedirectedResponse(newHttpRequestResponse)) {
                             newHttpRequestResponse = RedirectUtils.getRedirectedResponse(newHttpRequestResponse);
                         }
+                        
+                        // 再次检查重定向后的响应是否为空
+                        if (newHttpRequestResponse == null || newHttpRequestResponse.getResponse() == null) {
+                            return false;
+                        }
+                        
                         if (this.helpers.analyzeResponse(newHttpRequestResponse.getResponse()).getStatusCode() != 200)
                             break block28;
                         if (this.isPassive.booleanValue()) {
@@ -230,6 +259,9 @@ public class ApiTypeSwagger
                         }
                     }
                 }
+            }
+            if (!documentjsonyaml.equals("")) {
+                this.urlAddPath(documentjsonyaml);
             }
         }
         return false;

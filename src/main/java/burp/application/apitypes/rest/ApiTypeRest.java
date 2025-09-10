@@ -90,13 +90,33 @@ public class ApiTypeRest
         IHttpService httpService = this.baseRequestResponse.getHttpService();
         byte[] newRequest = null;
         String urlorgin = this.helpers.analyzeRequest(this.baseRequestResponse).getUrl().toString();
+        
+        // 修复：处理相对路径URL，避免MalformedURLException异常
+        if (apiDocumentUrl.startsWith("/")) {
+            // 如果是相对路径，基于当前请求的URL构建完整URL
+            try {
+                URL base = new URL(urlorgin);
+                String protocol = base.getProtocol();
+                String host = base.getHost();
+                int port = base.getPort();
+                String portStr = (port != -1) ? ":" + port : "";
+                apiDocumentUrl = protocol + "://" + host + portStr + apiDocumentUrl;
+            } catch (MalformedURLException e) {
+                // 如果构建完整URL失败，记录错误并返回false
+                BurpExtender.getStderr().println("Failed to construct full URL from relative path: " + apiDocumentUrl);
+                return false;
+            }
+        }
+        
         if (apiDocumentUrl.equals(urlorgin)) {
             newHttpRequestResponse = this.baseRequestResponse;
         } else {
             try {
                 newRequest = this.helpers.buildHttpRequest(new URL(apiDocumentUrl));
             } catch (MalformedURLException exception) {
-                throw new ApiKitRuntimeException(exception);
+                // 修复：捕获异常但不抛出，改为记录日志并返回false
+                BurpExtender.getStderr().println("Invalid URL: " + apiDocumentUrl + ", Error: " + exception.getMessage());
+                return false;
             }
             newHttpRequestResponse = CookieManager.makeHttpRequest(this.baseRequestResponse, newRequest);
         }

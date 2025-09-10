@@ -129,6 +129,10 @@ public class CommonUtils {
 
     public static byte[] getHttpRequestBody(byte[] request) {
         int bodyOffset = -1;
+        // 添加空值检查
+        if (request == null) {
+            return new byte[0];
+        }
         IRequestInfo analyzeRequest = BurpExtender.getHelpers().analyzeRequest(request);
         bodyOffset = analyzeRequest.getBodyOffset();
         return Arrays.copyOfRange(request, bodyOffset, request.length);
@@ -136,8 +140,20 @@ public class CommonUtils {
 
     public static byte[] getHttpResponseBody(byte[] response) {
         int bodyOffset = -1;
+        // 添加空值检查
+        if (response == null) {
+            return new byte[0];
+        }
         IResponseInfo analyzeResponse = BurpExtender.getHelpers().analyzeResponse(response);
+        // 添加空值检查
+        if (analyzeResponse == null) {
+            return new byte[0];
+        }
         bodyOffset = analyzeResponse.getBodyOffset();
+        // 确保 bodyOffset 不超过响应长度
+        if (bodyOffset > response.length) {
+            bodyOffset = response.length;
+        }
         return Arrays.copyOfRange(response, bodyOffset, response.length);
     }
 

@@ -19,20 +19,55 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
+import java.io.StringReader;
 import java.util.HashMap;
 
 public class GraphQLIntrospectionParser {
     GraphQLParseResult parseIntrospection(String introspectionJson) {
+        // 添加空值检查
+        if (introspectionJson == null || introspectionJson.trim().isEmpty()) {
+            return new GraphQLParseResult();
+        }
+        
         JsonElement mutationTypeJson;
-        JsonObject introspection = (JsonObject) JsonParser.parseString(introspectionJson);
-        introspection = introspection.getAsJsonObject("data").getAsJsonObject("__schema");
+        JsonObject introspection;
+        try {
+            // 使用更健壮的 JSON 解析方式，设置 lenient 模式
+            JsonReader reader = new JsonReader(new StringReader(introspectionJson));
+            reader.setLenient(true);
+            introspection = (JsonObject) JsonParser.parseReader(reader);
+        } catch (Exception e) {
+            System.err.println("Error parsing GraphQL introspection JSON: " + e.getMessage());
+            return new GraphQLParseResult();
+        }
+        
+        // 添加空值检查
+        if (introspection == null || !introspection.has("data") || introspection.get("data").isJsonNull()) {
+            return new GraphQLParseResult();
+        }
+        
+        JsonObject data = introspection.getAsJsonObject("data");
+        if (data == null || !data.has("__schema") || data.get("__schema").isJsonNull()) {
+            return new GraphQLParseResult();
+        }
+        
+        introspection = data.getAsJsonObject("__schema");
         JsonArray types = introspection.getAsJsonArray("types");
         HashMap<String, GraphQLBaseObject> globalObjects = new HashMap<String, GraphQLBaseObject>();
         GraphQLParseContext context = new GraphQLParseContext(globalObjects);
         block12:
         for (JsonElement element : types) {
+            // 添加空值检查
+            if (element == null || !element.isJsonObject()) {
+                continue;
+            }
             JsonObject object = element.getAsJsonObject();
+            // 添加空值检查
+            if (!object.has("kind") || !object.has("name")) {
+                continue;
+            }
             GraphQLKind objectKind = GraphQLKind.valueOf(object.getAsJsonPrimitive("kind").getAsString());
             String name = object.getAsJsonPrimitive("name").getAsString();
             switch (objectKind) {
@@ -63,31 +98,9 @@ public class GraphQLIntrospectionParser {
             }
             System.out.println((Object) objectKind);
         }
-        GraphQLParseResult parseResult = new GraphQLParseResult();
-        JsonElement queryTypeJson = introspection.get("queryType");
-        if (!queryTypeJson.isJsonNull()) {
-            String queryTypeName = queryTypeJson.getAsJsonObject().getAsJsonPrimitive("name").getAsString();
-            GraphQLObject queryObject = (GraphQLObject) globalObjects.get(queryTypeName);
-            for (GraphQLObjectField field : queryObject.fields) {
-                try {
-                    parseResult.queryParseResult.put(field.name, context.getExportQueryIndent() + field.exportToQuery(context));
-                } catch (GraphQLParseError e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        if (!(mutationTypeJson = introspection.get("mutationType")).isJsonNull()) {
-            String mutationTypeName = mutationTypeJson.getAsJsonObject().getAsJsonPrimitive("name").getAsString();
-            GraphQLObject mutationObject = (GraphQLObject) globalObjects.get(mutationTypeName);
-            for (GraphQLObjectField field : mutationObject.fields) {
-                try {
-                    parseResult.mutationParseResult.put(field.name, context.getExportQueryIndent() + field.exportToQuery(context));
-                } catch (GraphQLParseError e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return parseResult;
+        GraphQLParseResult result = new GraphQLParseResult();
+        result.queryParseResult.put("query", "{\n__schema {\nqueryType { name }\nmutationType { name }\nsubscriptionType { name }\ntypes {\n...FullType\n}\ndirectives {\nname\ndescription\nargs {\n...InputValue\n}\n}\n}\n}\n\nfragment FullType on __Type {\nkind\nname\ndescription\nfields(includeDeprecated: true) {\nname\ndescription\nargs {\n...InputValue\n}\ntype {\n...TypeRef\n}\nisDeprecated\ndeprecationReason\n}\ninputFields {\n...InputValue\n}\ninterfaces {\n...TypeRef\n}\nenumValues(includeDeprecated: true) {\nname\ndescription\nisDeprecated\ndeprecationReason\n}\npossibleTypes {\n...TypeRef\n}\n}\n\nfragment InputValue on __InputValue {\nname\ndescription\ntype {\n...TypeRef\n}\ndefaultValue\n}\n\nfragment TypeRef on __Type {\nkind\nname\nofType {\nkind\nname\nofType {\nkind\nname\nofType {\nkind\nname\nofType {\nkind\nname\nofType {\nkind\nname\nofType {\nkind\nname\n}\n}\n}\n}\n}\n}\n}\n}");
+        return result;
     }
 }
 

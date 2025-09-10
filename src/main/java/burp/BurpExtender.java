@@ -27,7 +27,7 @@ import java.util.List;
 public class BurpExtender
         implements IBurpExtender,
         IExtensionStateListener {
-    public static String VERSION = "1.6.2";
+    public static String VERSION = "2.0.0";
     public static String NAME = "APIKit";
     public static String FULLNAME = NAME + "pro v " + VERSION;
     public static HashMap<String, String> TargetAPI = new HashMap();
@@ -118,7 +118,8 @@ public class BurpExtender
             }
 
             @Override
-            public List<IScanIssue> doActiveScan(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
+            public List<IScanIssue> doActiveScan(IHttpRequestResponse baseRequestResponse,
+                    IScannerInsertionPoint insertionPoint) {
                 return null;
             }
 
@@ -134,9 +135,10 @@ public class BurpExtender
         callbacks.setExtensionName(FULLNAME);
         stdout.println("===================================");
         stdout.println(String.format("%s load success!", FULLNAME));
-        stdout.println("Author: XF-FS");
-        stdout.println("Project address: https://github.com/XF-FS/APIKit");
+        stdout.println("Author: tangkaixing");
+        stdout.println("Project address: https://github.com/tang51678/APIKit");
         stdout.println("Thank: https://github.com/API-Security/APIKit");
+        stdout.println("Thank: https://github.com/XF-FS/APIKit");
         stdout.println("===================================");
         callbacks.registerExtensionStateListener(this);
     }
@@ -156,4 +158,3 @@ public class BurpExtender
         passiveScanner = null;
     }
 }
-

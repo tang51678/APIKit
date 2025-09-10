@@ -79,26 +79,62 @@ public class ApiTypeSoap
         IHttpService httpService = this.baseRequestResponse.getHttpService();
         byte[] newRequest = null;
         String urlorgin = this.helpers.analyzeRequest(this.baseRequestResponse).getUrl().toString();
+        
+        // 修复：处理相对路径URL，避免MalformedURLException异常
+        if (apiDocumentUrl.startsWith("/")) {
+            // 如果是相对路径，基于当前请求的URL构建完整URL
+            try {
+                URL base = new URL(urlorgin);
+                String protocol = base.getProtocol();
+                String host = base.getHost();
+                int port = base.getPort();
+                String portStr = (port != -1) ? ":" + port : "";
+                apiDocumentUrl = protocol + "://" + host + portStr + apiDocumentUrl;
+            } catch (MalformedURLException e) {
+                // 如果构建完整URL失败，记录错误并返回false
+                BurpExtender.getStderr().println("Failed to construct full URL from relative path: " + apiDocumentUrl);
+                return false;
+            }
+        }
+        
         if (apiDocumentUrl.equals(urlorgin)) {
             newHttpRequestResponse = this.baseRequestResponse;
         } else {
             try {
                 newRequest = this.helpers.buildHttpRequest(new URL(apiDocumentUrl));
             } catch (MalformedURLException exception) {
-                throw new ApiKitRuntimeException(exception);
+                // 修复：捕获异常但不抛出，改为记录日志并返回false
+                BurpExtender.getStderr().println("Invalid URL: " + apiDocumentUrl + ", Error: " + exception.getMessage());
+                return false;
             }
             newHttpRequestResponse = CookieManager.makeHttpRequest(this.baseRequestResponse, newRequest);
         }
+        
+        // 添加空值检查，防止NullPointerException
+        if (newHttpRequestResponse == null || newHttpRequestResponse.getResponse() == null) {
+            return false;
+        }
+        
         String currentUrl = this.helpers.analyzeRequest(newHttpRequestResponse).getUrl().toString();
         if (RedirectUtils.isRedirectedResponse(newHttpRequestResponse)) {
             newHttpRequestResponse = RedirectUtils.getRedirectedResponse(newHttpRequestResponse);
         }
+        
+        // 再次检查重定向后的响应是否为空
+        if (newHttpRequestResponse == null || newHttpRequestResponse.getResponse() == null) {
+            return false;
+        }
+        
         if ((this.helpers.analyzeResponse(newHttpRequestResponse.getResponse()).getStatusCode() == 500 || this.helpers.analyzeResponse(newHttpRequestResponse.getResponse()).getStatusCode() == 200 || this.helpers.analyzeResponse(newHttpRequestResponse.getResponse()).getStatusCode() == 404) && ((resp = new String(CommonUtils.getHttpResponseBody(newHttpRequestResponse.getResponse()))).contains("soap:Server") || resp.contains("xmlns:soap"))) {
             apidocument = currentUrl + (currentUrl.endsWith("/") ? "" : "/") + "?wsdl";
             try {
                 if (!((HashMap) this.getApiDocuments()).containsKey(apidocument)) {
                     newRequest = this.helpers.buildHttpRequest(new URL(apidocument));
                     newHttpRequestResponse = CookieManager.makeHttpRequest(this.baseRequestResponse, newRequest);
+                    // 添加空值检查
+                    if (newHttpRequestResponse == null || newHttpRequestResponse.getResponse() == null) {
+                        return false;
+                    }
                     ((HashMap) this.getApiDocuments()).put(apidocument, newHttpRequestResponse);
                     return true;
                 }
@@ -124,12 +160,17 @@ public class ApiTypeSoap
                     if (((HashMap) this.getApiDocuments()).containsKey(apidocument)) continue;
                     newRequest = this.helpers.buildHttpRequest(new URL(apidocument));
                     IHttpRequestResponse tempRequestResponse = CookieManager.makeHttpRequest(this.baseRequestResponse, newRequest);
+                    // 添加空值检查
+                    if (tempRequestResponse == null || tempRequestResponse.getResponse() == null) {
+                        continue;
+                    }
                     ((HashMap) this.getApiDocuments()).put(apidocument, tempRequestResponse);
                 } catch (Exception exception) {
+                    // 忽略异常，继续处理其他匹配项
                 }
             }
         }
-        return ((HashMap) this.getApiDocuments()).size() != 0;
+        return false;
     }
 
     @Override

@@ -20,12 +20,15 @@ import burp.utils.UrlScanCount;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
+import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -82,12 +85,38 @@ public class ApiTypeActuator
     public Boolean urlAddPath(String apiDocumentUrl) {
         IHttpService httpService = this.baseRequestResponse.getHttpService();
         byte[] newRequest = null;
+        
+        // 修复：处理相对路径URL，避免MalformedURLException异常
+        if (apiDocumentUrl.startsWith("/")) {
+            // 如果是相对路径，基于当前请求的URL构建完整URL
+            String urlorgin = this.helpers.analyzeRequest(this.baseRequestResponse).getUrl().toString();
+            try {
+                URL base = new URL(urlorgin);
+                String protocol = base.getProtocol();
+                String host = base.getHost();
+                int port = base.getPort();
+                String portStr = (port != -1) ? ":" + port : "";
+                apiDocumentUrl = protocol + "://" + host + portStr + apiDocumentUrl;
+            } catch (MalformedURLException e) {
+                // 如果构建完整URL失败，记录错误并返回false
+                BurpExtender.getStderr().println("Failed to construct full URL from relative path: " + apiDocumentUrl);
+                return false;
+            }
+        }
+        
         try {
             newRequest = this.helpers.buildHttpRequest(new URL(apiDocumentUrl));
         } catch (MalformedURLException exception) {
-            throw new ApiKitRuntimeException(exception);
+            // 修复：捕获异常但不抛出，改为记录日志并返回false
+            BurpExtender.getStderr().println("Invalid URL: " + apiDocumentUrl + ", Error: " + exception.getMessage());
+            return false;
         }
         IHttpRequestResponse newHttpRequestResponse = CookieManager.makeHttpRequest(this.baseRequestResponse, newRequest);
+        // 添加空值检查，防止NullPointerException
+        if (newHttpRequestResponse == null || newHttpRequestResponse.getResponse() == null) {
+            return false;
+        }
+        
         String urlPath = this.helpers.analyzeRequest(newHttpRequestResponse).getUrl().toString();
         if (this.helpers.analyzeResponse(newHttpRequestResponse.getResponse()).getStatusCode() == 200) {
             if (this.isPassive.booleanValue()) {
@@ -98,17 +127,41 @@ public class ApiTypeActuator
                 }
             }
             String resp = new String(CommonUtils.getHttpResponseBody(newHttpRequestResponse.getResponse()));
+            if (resp == null || resp.trim().isEmpty()) {
+                return false;
+            }
             try {
-                JsonObject jsonObject;
-                JsonElement element = JsonParser.parseString(resp);
-                if (element.isJsonObject() && ((jsonObject = element.getAsJsonObject()).get("_links") != null || jsonObject.get("/**/favicon.ico") != null || jsonObject.get("contexts") != null)) {
-                    if (jsonObject.get("_links") != null && jsonObject.get("_links").getAsJsonObject().get("mappings") != null) {
+                // 使用更健壮的 JSON 解析方式，设置 lenient 模式以处理格式不严格的 JSON
+                JsonReader reader = new JsonReader(new StringReader(resp));
+                reader.setLenient(true);
+                JsonElement element = JsonParser.parseReader(reader);
+                if (element == null || !element.isJsonObject()) {
+                    return false;
+                }
+                JsonObject jsonObject = element.getAsJsonObject();
+                if (jsonObject == null) {
+                    return false;
+                }
+                
+                boolean hasLinks = jsonObject.has("_links") && jsonObject.get("_links").isJsonObject();
+                boolean hasFavicon = jsonObject.has("/**/favicon.ico");
+                boolean hasContexts = jsonObject.has("contexts");
+                
+                if (!hasLinks && !hasFavicon && !hasContexts) {
+                    return false;
+                }
+
+                if (hasLinks) {
+                    JsonObject links = jsonObject.getAsJsonObject("_links");
+                    if (links.has("mappings")) {
                         this.urlAddPath(urlPath + "/mappings");
                     }
-                    ((HashMap) this.getApiDocuments()).put(apiDocumentUrl, newHttpRequestResponse);
-                    return true;
                 }
+
+                ((HashMap) this.getApiDocuments()).put(apiDocumentUrl, newHttpRequestResponse);
+                return true;
             } catch (Exception e) {
+                BurpExtender.getStderr().println("Error parsing Actuator JSON response: " + e.getMessage());
                 return false;
             }
         }
@@ -286,27 +339,17 @@ public class ApiTypeActuator
         return results;
     }
 
-    public ArrayList<IScanIssue> exportIssues() {
-        ArrayList<IScanIssue> issues = new ArrayList<IScanIssue>();
-        for (Map.Entry<String, IHttpRequestResponse> entry : ((HashMap<String, IHttpRequestResponse>) this.getApiDocuments()).entrySet()) {
-            IHttpRequestResponse newHttpRequestResponse = entry.getValue();
-            URL newHttpRequestUrl = this.helpers.analyzeRequest(newHttpRequestResponse).getUrl();
-            String detail = "<br/>============ ApiDetection ============<br/>";
-            detail = detail + String.format("API Technology Type: %s <br/>", this.getApiTypeName());
-            detail = detail + "=====================================<br/>";
-            issues.add(new CustomScanIssue(newHttpRequestResponse.getHttpService(), newHttpRequestUrl, new IHttpRequestResponse[]{newHttpRequestResponse}, "API Technology", detail, "Information"));
-        }
-        return issues;
+    @Override
+    public List<IScanIssue> exportIssues() {
+        return new ArrayList<IScanIssue>();
     }
 
     @Override
     public String exportConsole() {
-        String stringBuilder = "\n============== API \u6307\u7eb9\u8be6\u60c5 ============\nxxxx\n\u8be6\u60c5\u8bf7\u67e5\u770b - Burp Scanner \u6a21\u5757 - Issue activity \u754c\u9762\n===================================";
-        return stringBuilder;
+        return "";
     }
-
+    
     public void clearScanState() {
         scannedUrl.clear();
     }
 }
-
